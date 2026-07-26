@@ -650,7 +650,10 @@ ${ocrText.slice(0, 8000)}`;
       items.push({ description: 'Invoice item', quantity: 1, unit_price: total, amount: total, sort_order: 0 });
     }
   }
-  if (items.length === 0) return { success: false, error: 'No line items found in invoice' };
+  if (items.length === 0) {
+    // Still no items - create placeholder so user can fill in manually on review page
+    items.push({ description: 'Invoice item', quantity: 1, unit_price: 0, amount: 0, sort_order: 0 });
+  }
 
   const subtotal = items.reduce((s: number, it: any) => s + it.amount, 0);
   const total = parsed?.total || subtotal;
